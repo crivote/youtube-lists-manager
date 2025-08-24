@@ -1,5 +1,5 @@
 {
-  "name": "example-with-tailwindcss",
+  "name": "youtube_lists_manager",
   "type": "module",
   "scripts": {
     "dev": "vinxi dev",
@@ -9,6 +9,8 @@
   "dependencies": {
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.1.0",
+    "jwt-decode": "^4.0.0",
+    "solid-heroicons": "^3.2.4",
     "solid-js": "^1.9.5",
     "vinxi": "^0.5.7"
   },

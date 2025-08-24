@@ -14,6 +14,11 @@ export default createHandler(() => (
         <body>
           <div id="app">{children}</div>
           {scripts}
+          <script
+            src="https://accounts.google.com/gsi/client"
+            async
+            defer
+          ></script>
         </body>
       </html>
     )}
