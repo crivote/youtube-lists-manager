@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "start-dev": "netlify dev --port 3000"
   },
   "dependencies": {
     "@solidjs/router": "^0.15.0",

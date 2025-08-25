@@ -1,17 +1,15 @@
 import { jwtDecode } from "jwt-decode";
 
 declare global {
-  interface Window {
-    google: {
-      accounts: {
-        id: {
-          initialize: (config: {
-            client_id: string;
-            callback: (response: any) => void;
-          }) => void;
-          renderButton: (element: HTMLElement | null, options: any) => void;
-          prompt: () => void;
-        };
+  interface Google {
+    accounts: {
+      id: {
+        initialize: (config: {
+          client_id: string;
+          callback: (response: any) => void;
+        }) => void;
+        renderButton: (element: HTMLElement | null, options: any) => void;
+        prompt: () => void;
       };
     };
   }
@@ -34,13 +32,14 @@ function handleCredentialResponse(response: any) {
 
 // Renderiza el botón de Google Sign-In
 export function renderGoogleButton(elementId: string) {
-  window.google.accounts.id.initialize({
+  const google: Google = (window as any).google;
+  google.accounts.id.initialize({
     client_id: CLIENT_ID,
     callback: handleCredentialResponse,
   });
-  window.google.accounts.id.renderButton(
+  google.accounts.id.renderButton(
     document.getElementById(elementId),
     { theme: "outline", size: "large" } // Opciones del botón
   );
-  window.google.accounts.id.prompt(); // Opcional: muestra el prompt automáticamente
+  google.accounts.id.prompt(); // Opcional: muestra el prompt automáticamente
 }

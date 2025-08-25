@@ -12,6 +12,7 @@ app.config.timestamp_*.js
 
 # dependencies
 /node_modules
+/netlify/functions/node_modules
 
 # IDEs and editors
 /.idea
