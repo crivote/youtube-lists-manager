@@ -94,6 +94,32 @@ class GoogleAuthService {
     }
   }
 
+  /**
+   * Cierra la sesión del usuario.
+   * Revoca los tokens y limpia el almacenamiento local.
+   */
+  public async logout(): Promise<void> {
+    const accessToken = localStorage.getItem("google_access_token");
+    if (accessToken) {
+      try {
+        // Revocar el token de acceso
+        await fetch(
+          `https://oauth2.googleapis.com/revoke?token=${accessToken}`,
+          {
+            method: "POST",
+            headers: { "Content-type": "application/x-www-form-urlencoded" },
+          }
+        );
+      } catch (error) {
+        console.error("Error al revocar el token:", error);
+      }
+    }
+    // Limpiar el almacenamiento local independientemente de la revocación del token
+    localStorage.removeItem("google_access_token");
+    localStorage.removeItem("google_refresh_token");
+    localStorage.removeItem("user_profile");
+  }
+
   private saveTokens(tokens: Tokens) {
     localStorage.setItem("google_access_token", tokens.access_token);
     if (tokens.refresh_token) {

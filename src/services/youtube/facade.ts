@@ -113,6 +113,39 @@ class YouTubeApiService {
       return { success: response.status === 204 };
     });
   }
+
+  /**
+   * Crea una nueva lista de reproducción.
+   * @param title El título de la nueva lista de reproducción.
+   * @returns La nueva lista creada o un error.
+   */
+  public async createPlaylist(
+    title: string
+  ): Promise<PlaylistItem | { error: string }> {
+    return this.withTokenRefresh<PlaylistItem>(async (accessToken) => {
+      const endpoint =
+        "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          snippet: {
+            title,
+            description: "Created with YouTube Lists Manager",
+            privacyStatus: "private", // Por defecto creamos listas privadas
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw response;
+      }
+      return await response.json();
+    });
+  }
 }
 
 export const youtubeApiService = new YouTubeApiService();

@@ -20,8 +20,6 @@ exports.handler = async function (event, context) {
     };
   }
 
-  console.log("Código de autorización recibido. Longitud:", code.length);
-
   const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
     CLIENT_SECRET,
@@ -30,6 +28,7 @@ exports.handler = async function (event, context) {
 
   try {
     if (refreshToken) {
+      console.log("refresh token recibido. Longitud:", refreshToken.length);
       console.log("Renovando token...");
       oauth2Client.setCredentials({ refresh_token: refreshToken });
       const { tokens } = await oauth2Client.refreshAccessToken();
@@ -46,6 +45,7 @@ exports.handler = async function (event, context) {
     }
 
     if (code) {
+      console.log("Código de autorización recibido. Longitud:", code.length);
       console.log("Intercambiando código por tokens...");
       const { tokens } = await oauth2Client.getToken(code);
       console.log(
@@ -67,8 +67,6 @@ exports.handler = async function (event, context) {
         profile.data.names[0].displayName
       );
 
-      // Puedes decidir si guardar el refresh token en una base de datos o en el navegador.
-      // Para esta prueba, lo devolvemos al cliente.
       return {
         statusCode: 200,
         body: JSON.stringify({
